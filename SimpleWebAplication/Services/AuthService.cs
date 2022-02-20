@@ -18,7 +18,7 @@ namespace SimpleWebAplication.Services
 
         public async Task<ServiceResult<LoginRespose>> Authenticate(LoginRequest request, CancellationToken ct)
         {
-            var user = await _userRepository.Get(request.Username, ct).ConfigureAwait(false);
+            var user = await _userRepository.GetByEmail(request.Email, ct).ConfigureAwait(false);
 
             if(user == null || !_bCrypt.Verify(request.Password, user.PasswordHash))
                 return ServiceResultResponse404Message.Create("Invalid username or password");
@@ -28,17 +28,17 @@ namespace SimpleWebAplication.Services
 
         private LoginUserInfo Map(User user) 
         {
-            return new LoginUserInfo { CPF = user.Cpf, Name = user.Name };
+            return new LoginUserInfo { CPF = user.Cpf, Name = user.Name, Email = user.Email };
         }
 
         public async Task<ServiceResult<RegisterResponse>> RegisterUser(RegisterRequest request, CancellationToken ct) 
         {
-            var user = await _userRepository.Get(request.Username, ct).ConfigureAwait(false);
+            var user = await _userRepository.GetByEmail(request.Email, ct).ConfigureAwait(false);
 
             if (user != null)
                 return ServiceResultResponse409Message.Create($"User already taken");
 
-             user = new User() { Username = request.Username, PasswordHash = _bCrypt.HashPassword(request.Password), Cpf= request.CPF };
+             user = new User() { Email = request.Email, PasswordHash = _bCrypt.HashPassword(request.Password), Cpf= request.CPF };
              user = await _userRepository.Create(user, ct);
             return new RegisterResponse();
         }

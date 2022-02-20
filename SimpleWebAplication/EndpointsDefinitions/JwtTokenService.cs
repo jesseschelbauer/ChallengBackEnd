@@ -15,7 +15,7 @@ namespace SimpleWebAplication.EndpointsDefinitions
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims: new Claim[] {
-            new Claim (ClaimTypes.Name, user.Username.ToString ())
+            new Claim (ClaimTypes.Name, user.Email.ToString ())
             }),
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

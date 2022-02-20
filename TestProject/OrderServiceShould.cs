@@ -36,7 +36,7 @@ namespace TestProject
             newUserMock.SetupGet(x => x.AccoutBalance).Returns(1);
 
             var user = newUserMock.Object;
-            user.Username = Faker.Name.First();
+            user.Email = Faker.Internet.Email();
             user.Cpf = "12345678910";
             user.Account = "123456";
             user.Name = Faker.Name.First();

@@ -15,9 +15,9 @@ namespace SimpleWebAplication.Repositories
             return await Task.FromResult(user).ConfigureAwait(false);
         }
 
-        public async Task<User?> Get(string username, CancellationToken ct)
+        public async Task<User?> GetByEmail(string email, CancellationToken ct)
         {
-            return await Task.FromResult(DataContext.Users.FirstOrDefault(u => u.Username == username)).ConfigureAwait(false);
+            return await Task.FromResult(DataContext.Users.FirstOrDefault(u => u.Email == email)).ConfigureAwait(false);
         }
 
         public async Task<User?> Get(int id, CancellationToken ct)

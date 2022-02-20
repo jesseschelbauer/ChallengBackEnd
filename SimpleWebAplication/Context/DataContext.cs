@@ -33,7 +33,7 @@ namespace SimpleWebAplication.Context
             {
                 Id = 1,
                 PasswordHash = "$2a$11$xYqg7vpTbmo7rT1yujqKEu0bjydG.zzHfoStm9qb545mlJ5SFmP4W",
-                Username = "jesse",
+                Email = "jesseschelbauer@gmail.com",
                 Account = "123456",
                 Name = "Jesse Schelbauer",
                 Cpf = "05767299900",

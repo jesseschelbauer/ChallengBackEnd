@@ -15,7 +15,7 @@ public class UserInfoMiddleware
         
         if (userName != null)
         {
-            var user = await repository.Get(userName, CancellationToken.None);
+            var user = await repository.GetByEmail(userName, CancellationToken.None);
             httpContext.Items.Add("user", user);
         }
 

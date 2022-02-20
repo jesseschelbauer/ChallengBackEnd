@@ -13,7 +13,7 @@ namespace SimpleWebAplication.Services
         }
         public async Task<ServiceResult<UserPositionResponse>> GetCurrent(string userId, CancellationToken ct) 
         {
-            var user = await _userRepository.Get(userId, ct).ConfigureAwait(false);
+            var user = await _userRepository.GetByEmail(userId, ct).ConfigureAwait(false);
 
             return new UserPositionResponse(user!.AccoutBalance);
         }

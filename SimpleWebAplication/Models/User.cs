@@ -3,7 +3,7 @@ namespace SimpleWebAplication.Models;
 public class User
 {
     public int Id { get; set; }
-    public string Username { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
     public string Cpf { get; set; } = string.Empty;
     public virtual decimal AccoutBalance { get; private set; } = 0;
     public string Account { get; set; } = string.Empty;
