@@ -11,8 +11,8 @@ namespace SimpleWebAplication.Validators
             RuleFor(r => r.Email).EmailAddress();
             RuleFor(r => r.Password).NotEmpty();
             RuleFor(r => r.Password).MaximumLength(6);
-            RuleFor(r => r.CPF).NotEmpty();
-            RuleFor(r => r.CPF).Length(11);
+            RuleFor(r => r.Cpf).NotEmpty();
+            RuleFor(r => r.Cpf).Length(11);
         }
     }
 }
