@@ -1,9 +1,10 @@
-﻿using SimpleWebAplication.EndpointsDefinitions;
+﻿using SimpleWebAplication.Context;
+using SimpleWebAplication.EndpointsDefinitions;
 using SimpleWebAplication.Models;
 
 namespace SimpleWebAplication.Services
 {
-    public class AuthService: IAuthService
+    public class AuthService : IAuthService
     {
         private readonly IUserRepository _userRepository;
         private readonly IJwtTokenService _jwtTokenService;
@@ -13,34 +14,48 @@ namespace SimpleWebAplication.Services
         {
             _userRepository = userRepository;
             _jwtTokenService = jwtTokenService;
-            _bCrypt = bCrypt;            
+            _bCrypt = bCrypt;
         }
 
         public async Task<ServiceResult<LoginRespose>> Authenticate(LoginRequest request, CancellationToken ct)
         {
             var user = await _userRepository.GetByEmail(request.Email, ct).ConfigureAwait(false);
 
-            if(user == null || !_bCrypt.Verify(request.Password, user.PasswordHash))
+            if (user == null || !_bCrypt.Verify(request.Password, user.PasswordHash))
                 return ServiceResultResponse404Message.Create("Invalid username or password");
-            
-            return new LoginRespose() { User = Map(user),    Token = _jwtTokenService.GenerateToken(user) };
+
+            return new LoginRespose() { User = Map(user), Token = _jwtTokenService.GenerateToken(user) };
         }
 
-        private LoginUserInfo Map(User user) 
+        private LoginUserInfo Map(User user)
         {
             return new LoginUserInfo { CPF = user.Cpf, Name = user.Name, Email = user.Email };
         }
 
-        public async Task<ServiceResult<RegisterResponse>> RegisterUser(RegisterRequest request, CancellationToken ct) 
+        public async Task<ServiceResult<RegisterResponse>> RegisterUser(RegisterRequest request, CancellationToken ct)
         {
             var user = await _userRepository.GetByEmail(request.Email, ct).ConfigureAwait(false);
 
             if (user != null)
                 return ServiceResultResponse409Message.Create($"User already taken");
 
-             user = new User() { Email = request.Email, PasswordHash = _bCrypt.HashPassword(request.Password), Cpf= request.CPF };
-             user = await _userRepository.Create(user, ct);
+            user = Map(request);
+            user.PasswordHash = _bCrypt.HashPassword(request.Password);
+            user.Account = GenerataAccountNumber();
+
+            user = await _userRepository.Create(user, ct);
             return new RegisterResponse();
         }
-    }   
+
+        private string GenerataAccountNumber() 
+        {
+            // Should be removed to another place
+            return DataContext.NewAccount.ToString();
+        }
+
+        private User Map(RegisterRequest request)
+        {
+            return new() { Email = request.Email, Cpf = request.Cpf, Name = request.Name };
+        }
+    }
 }
