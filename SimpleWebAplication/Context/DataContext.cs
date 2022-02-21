@@ -5,8 +5,9 @@ namespace SimpleWebAplication.Context
 {
     public static class DataContext
     {
+        private static int account = 300123;
         private static int Id = 1;
-        public static int NewId { get { return Id++; } }
+        public static int NewId => Id++;
         static DataContext()
         {
             UserAssets.Add(new UserAsset() { Symbol = "PETR4", CurrentPrice = 28.44M });
@@ -34,10 +35,11 @@ namespace SimpleWebAplication.Context
                 Id = 1,
                 PasswordHash = "$2a$11$xYqg7vpTbmo7rT1yujqKEu0bjydG.zzHfoStm9qb545mlJ5SFmP4W",
                 Email = "jesseschelbauer@gmail.com",
-                Account = "123456",
+                Account = NewAccount.ToString(),
                 Name = "Jesse Schelbauer",
                 Cpf = "05767299900",
             }
         };
+        public static int NewAccount => account++;
     }
 }
