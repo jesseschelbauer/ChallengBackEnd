@@ -1,10 +1,12 @@
-﻿using SimpleWebAplication.Services;
+﻿using Microsoft.AspNetCore.SignalR;
+using SimpleWebAplication.EndpointsDefinitions;
+using SimpleWebAplication.Services;
 
 public class TrendsEndpointDefinition : IEndpointDefinition
 {
     public void Define(WebApplication web)
     {
-        web.MapGet("/trends", async (ITrendService trendService, CancellationToken ct) => {
+        web.MapGet("/trends", async (ITrendService trendService, CancellationToken ct) => {            
             return await trendService.GetTop(5, ct).ConfigureAwait(false);
         });
     }

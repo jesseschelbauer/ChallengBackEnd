@@ -1,4 +1,5 @@
-﻿using SimpleWebAplication.Services;
+﻿using Microsoft.AspNetCore.SignalR;
+using SimpleWebAplication.Services;
 
 public class AccountInfoEndpointDefinition : IEndpointDefinition
 {
