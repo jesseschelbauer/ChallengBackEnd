@@ -8,7 +8,7 @@ public class WsEndpointDefinition : IEndpointDefinition
 {
     public void Define(WebApplication web)
     {
-        web.MapHub<TrendsHub>("ws-trends").AllowAnonymous();
+        web.MapHub<TrendsHub>("ws-trends");
     }
 
     public void DefineServices(IServiceCollection services)
